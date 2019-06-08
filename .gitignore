@@ -35,3 +35,11 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Node Modules #
+################
+/server/node_modules
+
+# Secrets #
+###########
+.env

@@ -1,7 +1,8 @@
 const express = require('express');
-const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+
+const app = express();
 
 const PORT = process.env.PORT || 3000;
 const ENV = process.env.NODE_ENV || 'development';
@@ -23,5 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.listen(PORT, () =>
+  // eslint-disable-next-line no-console
   console.log(`Listening on port ${PORT} in ${ENV} mode. Wait for compile...`)
 );

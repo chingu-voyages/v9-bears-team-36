@@ -26,6 +26,12 @@ class App extends React.Component {
     }));
   };
 
+  onReset = e => {
+    e.preventDefault();
+
+    this.setState(() => ({ search: "", searchResult: "" }));
+  };
+
   renderList = () => (
     <ul>
       {disasters.map(disaster => (
@@ -50,6 +56,7 @@ class App extends React.Component {
         <h1>Ongoing Disasters</h1>
         <SearchBar
           onChange={this.onSearchChange}
+          onReset={this.onReset}
           onSubmit={this.onSearchSubmit}
           value={this.state.search}
         />

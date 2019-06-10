@@ -1,10 +1,12 @@
 const express = require('express');
-const router = express.Router();
 const axios = require('axios');
 
+const router = express.Router();
+
 router.get('/', function(_, res) {
-  const allDisastersURL = `https://api.reliefweb.int/v1/disasters?filter[field]=status&filter[value]=current&limit=100`;
-  const oneDisasterURL = `https://api.reliefweb.int/v1/disasters/`;
+  const allDisastersURL =
+    'https://api.reliefweb.int/v1/disasters?filter[field]=status&filter[value]=current&limit=100';
+  const oneDisasterURL = 'https://api.reliefweb.int/v1/disasters/';
 
   axios
     .get(allDisastersURL)

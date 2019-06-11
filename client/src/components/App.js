@@ -5,9 +5,23 @@ import SearchBar from "./SearchBar";
 
 class App extends React.Component {
   state = {
+    countries: [],
     search: "",
-    searchResult: null
+    searchResult: ""
   };
+
+  componentDidMount() {
+    const countries = [];
+    disasters.forEach(disaster =>
+      disaster.countries.forEach(country => {
+        if (!countries.includes(country.name)) {
+          countries.push(country.name);
+        }
+      })
+    );
+
+    this.setState(() => ({ countries }));
+  }
 
   onSearchChange = e => {
     const search = e.target.value;
@@ -18,7 +32,7 @@ class App extends React.Component {
   onSearchSubmit = e => {
     e.preventDefault();
 
-    const searchResult = Number(e.target.value);
+    const searchResult = e.target.value;
 
     this.setState(() => ({
       search: "",
@@ -43,7 +57,13 @@ class App extends React.Component {
   renderResult = () => (
     <div>
       {disasters
-        .filter(disaster => disaster.id === this.state.searchResult)
+        .filter(disaster =>
+          disaster.countries.find(
+            country => country.name === this.state.searchResult
+          )
+            ? true
+            : false
+        )
         .map(disaster => (
           <p key={disaster.id}>{disaster.name}</p>
         ))}
@@ -55,6 +75,7 @@ class App extends React.Component {
       <div className="App">
         <h1>Ongoing Disasters</h1>
         <SearchBar
+          countries={this.state.countries}
           onChange={this.onSearchChange}
           onReset={this.onReset}
           onSubmit={this.onSearchSubmit}

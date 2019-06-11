@@ -1,23 +1,20 @@
 import React from "react";
 
-import disasters from "../seedData";
-
-const SearchBar = ({ onChange, onReset, onSubmit, value }) => (
+const SearchBar = ({ countries, onChange, onReset, onSubmit, value }) => (
   <div>
     <input onChange={onChange} placeholder="Find by Country" value={value} />
     <button onClick={onReset}>View All</button>
     {value && (
       <div>
-        {disasters
-          .filter(disaster => disaster.name.toLowerCase().includes(value))
+        {countries
+          .filter(country => country.toLowerCase().includes(value))
           .sort(
             (a, b) =>
-              a.name.toLowerCase().indexOf(value) >
-              b.name.toLowerCase().indexOf(value)
+              a.toLowerCase().indexOf(value) > b.toLowerCase().indexOf(value)
           )
-          .map(disaster => (
-            <button key={disaster.id} onClick={onSubmit} value={disaster.id}>
-              {disaster.name}
+          .map(country => (
+            <button key={country} onClick={onSubmit} value={country}>
+              {country}
             </button>
           ))}
       </div>

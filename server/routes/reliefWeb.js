@@ -39,7 +39,8 @@ router.get('/', function(_, res) {
             types: fields.type.map(type => {
               return {
                 id: type.id,
-                type: type.name
+                type: type.name,
+                primary: type.primary ? type.primary : false
               };
             })
           };

@@ -1,16 +1,20 @@
-import React from "react";
+import React from 'react';
+import axios from 'axios';
 
-import disasters from "../seedData";
-import SearchBar from "./SearchBar";
+import SearchBar from './SearchBar';
 
 class App extends React.Component {
   state = {
     countries: [],
-    search: "",
-    searchResult: ""
+    disasters: [],
+    search: '',
+    searchResult: ''
   };
 
-  componentDidMount() {
+  async componentDidMount() {
+    const res = await axios.get('/relief');
+    const disasters = res.data;
+
     const countries = [];
     disasters.forEach(disaster =>
       disaster.countries.forEach(country => {
@@ -20,7 +24,7 @@ class App extends React.Component {
       })
     );
 
-    this.setState(() => ({ countries }));
+    this.setState(() => ({ countries, disasters }));
   }
 
   onSearchChange = e => {
@@ -35,7 +39,7 @@ class App extends React.Component {
     const searchResult = e.target.value;
 
     this.setState(() => ({
-      search: "",
+      search: '',
       searchResult
     }));
   };
@@ -43,12 +47,12 @@ class App extends React.Component {
   onReset = e => {
     e.preventDefault();
 
-    this.setState(() => ({ search: "", searchResult: "" }));
+    this.setState(() => ({ search: '', searchResult: '' }));
   };
 
   renderList = () => (
     <ul>
-      {disasters.map(disaster => (
+      {this.state.disasters.map(disaster => (
         <li key={disaster.id}>{disaster.name}</li>
       ))}
     </ul>
@@ -56,7 +60,7 @@ class App extends React.Component {
 
   renderResult = () => (
     <div>
-      {disasters
+      {this.state.disasters
         .filter(disaster =>
           disaster.countries.find(
             country => country.name === this.state.searchResult

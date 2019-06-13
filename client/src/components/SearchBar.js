@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const SearchBar = ({ countries, onChange, onReset, onSubmit, value }) => (
   <div>
@@ -7,14 +7,15 @@ const SearchBar = ({ countries, onChange, onReset, onSubmit, value }) => (
     {value && (
       <div>
         {countries
-          .filter(country => country.toLowerCase().includes(value))
+          .filter(country => country.name.toLowerCase().includes(value))
           .sort(
             (a, b) =>
-              a.toLowerCase().indexOf(value) > b.toLowerCase().indexOf(value)
+              a.name.toLowerCase().indexOf(value) >
+              b.name.toLowerCase().indexOf(value)
           )
           .map(country => (
-            <button key={country} onClick={onSubmit} value={country}>
-              {country}
+            <button key={country} onClick={onSubmit} value={country.id}>
+              {country.name}
             </button>
           ))}
       </div>

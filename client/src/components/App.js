@@ -18,8 +18,15 @@ class App extends React.Component {
     const countries = [];
     disasters.forEach(disaster =>
       disaster.countries.forEach(country => {
-        if (!countries.includes(country.name)) {
-          countries.push(country.name);
+        if (!countries.map(country => country.name).includes(country.name)) {
+          countries.push({
+            id: country.id,
+            location: {
+              lat: country.location.lat,
+              lon: country.location.lon
+            },
+            name: country.name
+          });
         }
       })
     );
@@ -36,7 +43,10 @@ class App extends React.Component {
   onSearchSubmit = e => {
     e.preventDefault();
 
-    const searchResult = e.target.value;
+    const searchId = Number(e.target.value);
+    const searchResult = this.state.countries.find(
+      country => country.id === searchId
+    );
 
     this.setState(() => ({
       search: '',
@@ -63,7 +73,7 @@ class App extends React.Component {
       {this.state.disasters
         .filter(disaster =>
           disaster.countries.find(
-            country => country.name === this.state.searchResult
+            country => country.name === this.state.searchResult.name
           )
             ? true
             : false

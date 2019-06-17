@@ -37,7 +37,7 @@ class App extends React.Component {
   onSearchChange = e => {
     const search = e.target.value;
 
-    this.setState(() => ({ search: search.trim().toLowerCase() }));
+    this.setState(() => ({ search: search.toLowerCase() }));
   };
 
   onSearchSubmit = e => {
@@ -95,6 +95,9 @@ class App extends React.Component {
           onSubmit={this.onSearchSubmit}
           value={this.state.search}
         />
+        {this.state.searchResult && (
+          <p>Showing results for {this.state.searchResult.name}</p>
+        )}
         {!this.state.searchResult ? this.renderList() : this.renderResult()}
       </div>
     );

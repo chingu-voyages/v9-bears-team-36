@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 const ENV = process.env.NODE_ENV || 'development';
 
 const reliefWeb = require('./routes/reliefWeb');

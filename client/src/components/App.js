@@ -9,6 +9,7 @@ class App extends React.Component {
   state = {
     countries: [],
     disasters: [],
+    disaster: null,
     search: '',
     searchResult: ''
   };
@@ -62,6 +63,26 @@ class App extends React.Component {
     this.setState(() => ({ search: '', searchResult: '' }));
   };
 
+  handleSetDisaster = e => {
+    const disasterId = e.target.value;
+
+    const disaster = this.state.disasters.find(
+      disaster => disaster.id === Number(disasterId)
+    );
+
+    this.setState(() => ({
+      disaster,
+      searchResult: ''
+    }));
+  };
+
+  renderDisasterPage = () => (
+    <div>
+      <h2>{this.state.disaster.name}</h2>
+      <p>{this.state.disaster.description}</p>
+    </div>
+  );
+
   render() {
     return (
       <div className="App">
@@ -76,7 +97,9 @@ class App extends React.Component {
         {this.state.searchResult && (
           <p>Showing results for {this.state.searchResult.name}</p>
         )}
-        {!this.state.searchResult ? (
+        {this.state.disaster ? (
+          this.renderDisasterPage()
+        ) : !this.state.searchResult ? (
           <DisastersList disasters={this.state.disasters} />
         ) : (
           <SearchResult

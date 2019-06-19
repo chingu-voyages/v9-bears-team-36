@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 import SearchBar from './SearchBar';
+import DisastersList from './DisastersList';
+import SearchResult from './SearchResult';
 
 class App extends React.Component {
   state = {
@@ -60,30 +62,6 @@ class App extends React.Component {
     this.setState(() => ({ search: '', searchResult: '' }));
   };
 
-  renderList = () => (
-    <ul>
-      {this.state.disasters.map(disaster => (
-        <li key={disaster.id}>{disaster.name}</li>
-      ))}
-    </ul>
-  );
-
-  renderResult = () => (
-    <div>
-      {this.state.disasters
-        .filter(disaster =>
-          disaster.countries.find(
-            country => country.name === this.state.searchResult.name
-          )
-            ? true
-            : false
-        )
-        .map(disaster => (
-          <p key={disaster.id}>{disaster.name}</p>
-        ))}
-    </div>
-  );
-
   render() {
     return (
       <div className="App">
@@ -98,7 +76,15 @@ class App extends React.Component {
         {this.state.searchResult && (
           <p>Showing results for {this.state.searchResult.name}</p>
         )}
-        {!this.state.searchResult ? this.renderList() : this.renderResult()}
+        {!this.state.searchResult ? (
+          <DisastersList disasters={this.state.disasters} />
+        ) : (
+          <SearchResult
+            disasters={this.state.disasters}
+            onClick={this.handleSetDisaster}
+            searchResult={this.state.searchResult}
+          />
+        )}
       </div>
     );
   }

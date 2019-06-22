@@ -4,6 +4,7 @@ import axios from 'axios';
 import SearchBar from './SearchBar';
 import DisastersList from './DisastersList';
 import SearchResult from './SearchResult';
+import DisasterPage from './DisasterPage';
 
 class App extends React.Component {
   state = {
@@ -71,42 +72,47 @@ class App extends React.Component {
     );
 
     this.setState(() => ({
-      disaster,
-      searchResult: ''
+      disaster
     }));
   };
 
-  renderDisasterPage = () => (
-    <div>
-      <h2>{this.state.disaster.name}</h2>
-      <p>{this.state.disaster.description}</p>
-    </div>
-  );
+  handleClearDisaster = () => {
+    this.setState(() => ({
+      disaster: null
+    }));
+  };
 
   render() {
     return (
       <div className="App">
-        <h1>Ongoing Disasters</h1>
-        <SearchBar
-          countries={this.state.countries}
-          onChange={this.onSearchChange}
-          onReset={this.onReset}
-          onSubmit={this.onSearchSubmit}
-          value={this.state.search}
-        />
-        {this.state.searchResult && (
-          <p>Showing results for {this.state.searchResult.name}</p>
-        )}
         {this.state.disaster ? (
-          this.renderDisasterPage()
-        ) : !this.state.searchResult ? (
-          <DisastersList disasters={this.state.disasters} />
-        ) : (
-          <SearchResult
-            disasters={this.state.disasters}
-            onClick={this.handleSetDisaster}
-            searchResult={this.state.searchResult}
+          <DisasterPage
+            disaster={this.state.disaster}
+            onClick={this.handleClearDisaster}
           />
+        ) : (
+          <div>
+            <h1>Ongoing Disasters</h1>
+            <SearchBar
+              countries={this.state.countries}
+              onChange={this.onSearchChange}
+              onReset={this.onReset}
+              onSubmit={this.onSearchSubmit}
+              value={this.state.search}
+            />
+            {this.state.searchResult && (
+              <p>Showing results for {this.state.searchResult.name}</p>
+            )}
+            {!this.state.searchResult ? (
+              <DisastersList disasters={this.state.disasters} />
+            ) : (
+              <SearchResult
+                disasters={this.state.disasters}
+                onClick={this.handleSetDisaster}
+                searchResult={this.state.searchResult}
+              />
+            )}
+          </div>
         )}
       </div>
     );

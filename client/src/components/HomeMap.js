@@ -11,15 +11,27 @@ class HomeMap extends Component {
   };
 
   onMarkerClick = (props, marker, e) => {
-    const countryDisasterList = this.props.data
-      .map(disaster =>
-        disaster.countries.map(country => {
-          return country.id === props.countryId
-            ? { name: disaster.name, id: disaster.id }
-            : false;
-        })
+    const countryDisasterList = [].concat
+      .apply(
+        [],
+        this.props.data.map(disaster =>
+          disaster.countries.map(country => {
+            return country.id === props.countryId
+              ? { name: disaster.name, id: disaster.id }
+              : false;
+          })
+        )
       )
-      .filter(val => val !== false);
+      .filter(val => val !== false)
+      .sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
 
     this.setState({
       selectedPlace: { countryDisasterList, ...props },
@@ -72,8 +84,8 @@ class HomeMap extends Component {
             {this.state.showingInfoWindow &&
               this.state.selectedPlace.countryDisasterList.map(disaster => {
                 return (
-                  <a href={`/${disaster[0].id}`} key={disaster[0].id}>
-                    {disaster[0].name}
+                  <a href={`/${disaster.id}`} key={disaster.id}>
+                    {disaster.name}
                   </a>
                 );
               })}

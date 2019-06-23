@@ -14,8 +14,12 @@ class HomeMap extends Component {
         initialCenter={{ lat: 41.2284, lng: 80.9098 }}
       >
         {data.map(location => {
-          const { lat } = location.countries[0].location;
-          const { lng } = location.countries[0].location;
+          const { lat } = location.countries.filter(
+            country => country.primary
+          )[0].location;
+          const { lng } = location.countries.filter(
+            country => country.primary
+          )[0].location;
           return (
             <Marker
               name={location.name}

@@ -31,7 +31,7 @@ class App extends React.Component {
             id: country.id,
             location: {
               lat: country.location.lat,
-              lon: country.location.lon
+              lng: country.location.lng
             },
             name: country.name
           });

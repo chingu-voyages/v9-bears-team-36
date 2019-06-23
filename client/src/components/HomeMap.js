@@ -10,7 +10,9 @@ class HomeMap extends Component {
     selectedPlace: {}
   };
 
-  onMarkerClick = (props, marker, e) => {
+  onMarkerClick = (props, marker) => {
+    // Map over this.props [disasters] to find all disasters that list the Marker country in their [countries]
+    // Add these disaster names and ids to array, filter, sort and put in selectedPlace obj to access in the infoWindow
     const countryDisasterList = [].concat
       .apply(
         [],
@@ -40,7 +42,7 @@ class HomeMap extends Component {
     });
   };
 
-  onMapClick = props => {
+  onMapClick = () => {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
@@ -60,6 +62,7 @@ class HomeMap extends Component {
         onClick={this.onMapClick}
       >
         {data.map(disaster => {
+          // Add marker only to primary country for each disaster
           const country = disaster.countries.filter(country => country.primary);
           const { lat } = country[0].location;
           const { lng } = country[0].location;
@@ -84,6 +87,7 @@ class HomeMap extends Component {
             {this.state.showingInfoWindow &&
               this.state.selectedPlace.countryDisasterList.map(disaster => {
                 return (
+                  // Link to corresponding disaster component
                   <a href={`/${disaster.id}`} key={disaster.id}>
                     {disaster.name}
                   </a>

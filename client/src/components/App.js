@@ -6,6 +6,9 @@ import SearchBar from './SearchBar';
 import DisastersList from './DisastersList';
 import SearchResult from './SearchResult';
 import DisasterPageWrapper from './DisasterPageWrapper';
+import HomeMap from './HomeMap';
+
+require('dotenv').config();
 
 class App extends React.Component {
   state = {
@@ -101,6 +104,7 @@ class App extends React.Component {
               onSubmit={this.onSearchSubmit}
               value={this.state.search}
             />
+            <HomeMap data={this.state.disasters} />
             {this.state.searchResult && (
               <p>Showing results for {this.state.searchResult.name}</p>
             )}

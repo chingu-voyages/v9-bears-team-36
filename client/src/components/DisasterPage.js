@@ -31,6 +31,20 @@ class DisasterPage extends React.Component {
         <button onClick={this.props.onClick}>Return</button>
         <h2>{this.props.disaster.name}</h2>
         <p>
+          <span>Affected Countries: </span>
+          {this.props.disaster.countries
+            .sort((a, b) => b.primary - a.primary)
+            .map(country => country.name)
+            .join(', ')}
+        </p>
+        <p>
+          <span>Disaster Type: </span>
+          {this.props.disaster.types
+            .sort((a, b) => b.primary - a.primary)
+            .map(type => type.type)
+            .join(', ')}
+        </p>
+        <p>
           {this.state.showLongDescription
             ? this.state.longDescription
             : this.state.shortDescription}

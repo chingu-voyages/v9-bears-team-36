@@ -4,7 +4,7 @@ import axios from 'axios';
 import SearchBar from './SearchBar';
 import DisastersList from './DisastersList';
 import SearchResult from './SearchResult';
-import DisasterPage from './DisasterPage';
+import DisasterPageWrapper from './DisasterPageWrapper';
 
 class App extends React.Component {
   state = {
@@ -86,7 +86,7 @@ class App extends React.Component {
     return (
       <div className="App">
         {this.state.disaster ? (
-          <DisasterPage
+          <DisasterPageWrapper
             disaster={this.state.disaster}
             onClick={this.handleClearDisaster}
           />

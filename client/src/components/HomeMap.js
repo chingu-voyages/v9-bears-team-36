@@ -11,8 +11,18 @@ class HomeMap extends Component {
   };
 
   onMarkerClick = (props, marker, e) => {
+    const countryDisasterList = this.props.data
+      .map(disaster =>
+        disaster.countries.map(country => {
+          return country.id === props.countryId
+            ? { name: disaster.name, id: disaster.id }
+            : false;
+        })
+      )
+      .filter(val => val !== false);
+
     this.setState({
-      selectedPlace: props,
+      selectedPlace: { countryDisasterList, ...props },
       activeMarker: marker,
       showingInfoWindow: true
     });
@@ -37,18 +47,16 @@ class HomeMap extends Component {
         initialCenter={{ lat: 41.2284, lng: 80.9098 }}
         onClick={this.onMapClick}
       >
-        {data.map(location => {
-          const { lat } = location.countries.filter(
-            country => country.primary
-          )[0].location;
-          const { lng } = location.countries.filter(
-            country => country.primary
-          )[0].location;
+        {data.map(disaster => {
+          const country = disaster.countries.filter(country => country.primary);
+          const { lat } = country[0].location;
+          const { lng } = country[0].location;
           return (
             <Marker
+              countryId={country[0].id}
+              name={country[0].name}
               onClick={this.onMarkerClick}
-              name={location.name}
-              key={location.id}
+              key={disaster.id}
               position={{
                 lat,
                 lng
@@ -61,7 +69,14 @@ class HomeMap extends Component {
           visible={this.state.showingInfoWindow}
         >
           <>
-            <a href="/specificDisaster">{this.state.selectedPlace.name}</a>
+            {this.state.showingInfoWindow &&
+              this.state.selectedPlace.countryDisasterList.map(disaster => {
+                return (
+                  <a href={`/${disaster[0].id}`} key={disaster[0].id}>
+                    {disaster[0].name}
+                  </a>
+                );
+              })}
           </>
         </InfoWindow>
       </Map>

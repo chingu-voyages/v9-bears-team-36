@@ -19,7 +19,7 @@ class App extends React.Component {
     searchResult: ''
   };
 
-  async componentDidMount() {
+  async getAllDisasters() {
     const res = await axios.get('/relief');
     const disasters = res.data;
 
@@ -48,6 +48,20 @@ class App extends React.Component {
     this.setState(() => ({ search: search.toLowerCase() }));
   };
 
+  updateDisastersList = () => {
+    const disasterSearchList = this.state.disasters.filter(disaster =>
+      disaster.countries.find(
+        country => country.name === this.state.searchResult.name
+      )
+        ? true
+        : false
+    );
+
+    this.setState(() => ({
+      disasters: disasterSearchList
+    }));
+  };
+
   onSearchSubmit = e => {
     e.preventDefault();
 
@@ -56,16 +70,22 @@ class App extends React.Component {
       country => country.id === searchId
     );
 
-    this.setState(() => ({
-      search: '',
-      searchResult
-    }));
+    this.setState(
+      () => ({
+        search: '',
+        searchResult
+      }),
+      () => this.updateDisastersList()
+    );
   };
 
   onReset = e => {
     e.preventDefault();
 
-    this.setState(() => ({ search: '', searchResult: '' }));
+    this.setState(
+      () => ({ search: '', searchResult: '' }),
+      () => this.getAllDisasters()
+    );
   };
 
   handleSetDisaster = e => {
@@ -85,6 +105,9 @@ class App extends React.Component {
       disaster: null
     }));
   };
+  componentDidMount() {
+    this.getAllDisasters();
+  }
 
   render() {
     return (

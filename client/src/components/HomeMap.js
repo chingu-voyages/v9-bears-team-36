@@ -51,8 +51,28 @@ class HomeMap extends Component {
     }
   };
 
+  renderMarker(disaster) {
+    // Add marker only to primary country for each disaster
+    const country = disaster.countries.filter(country => country.primary);
+    const { lat } = country[0].location;
+    const { lng } = country[0].location;
+    return (
+      <Marker
+        countryId={country[0].id}
+        name={country[0].name}
+        onClick={this.onMarkerClick}
+        key={disaster.id}
+        position={{
+          lat,
+          lng
+        }}
+      />
+    );
+  }
+
   render() {
     const { google, data } = this.props;
+    const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
     return (
       <Map
         google={google}
@@ -62,30 +82,12 @@ class HomeMap extends Component {
         onClick={this.onMapClick}
       >
         {data.map(disaster => {
-          // Add marker only to primary country for each disaster
-          const country = disaster.countries.filter(country => country.primary);
-          const { lat } = country[0].location;
-          const { lng } = country[0].location;
-          return (
-            <Marker
-              countryId={country[0].id}
-              name={country[0].name}
-              onClick={this.onMarkerClick}
-              key={disaster.id}
-              position={{
-                lat,
-                lng
-              }}
-            />
-          );
+          return this.renderMarker(disaster);
         })}
-        <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
-        >
+        <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
           <>
-            {this.state.showingInfoWindow &&
-              this.state.selectedPlace.countryDisasterList.map(disaster => {
+            {selectedPlace.countryDisasterList &&
+              selectedPlace.countryDisasterList.map(disaster => {
                 return (
                   // Link to corresponding disaster component
                   <a href={`/${disaster.id}`} key={disaster.id}>

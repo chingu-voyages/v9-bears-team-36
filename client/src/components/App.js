@@ -15,6 +15,7 @@ class App extends React.Component {
     countries: [],
     disasters: [],
     disaster: null,
+    disastersSearchList: [],
     search: '',
     searchResult: ''
   };
@@ -48,8 +49,8 @@ class App extends React.Component {
     this.setState(() => ({ search: search.toLowerCase() }));
   };
 
-  updateDisastersList = () => {
-    const disasterSearchList = this.state.disasters.filter(disaster =>
+  updateDisastersSearchList = () => {
+    const disasterSearchResults = this.state.disasters.filter(disaster =>
       disaster.countries.find(
         country =>
           country.primary && country.name === this.state.searchResult.name
@@ -59,7 +60,7 @@ class App extends React.Component {
     );
 
     this.setState(() => ({
-      disasters: disasterSearchList
+      disastersSearchList: disasterSearchResults
     }));
   };
 
@@ -76,7 +77,7 @@ class App extends React.Component {
         search: '',
         searchResult
       }),
-      () => this.updateDisastersList()
+      () => this.updateDisastersSearchList()
     );
   };
 

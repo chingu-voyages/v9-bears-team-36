@@ -112,6 +112,14 @@ class App extends React.Component {
   }
 
   render() {
+    const {
+      countries,
+      disasters,
+      disastersSearchList,
+      search,
+      searchResult
+    } = this.state;
+
     return (
       <div className="App">
         {this.state.disaster ? (
@@ -129,7 +137,7 @@ class App extends React.Component {
               onSubmit={this.onSearchSubmit}
               value={this.state.search}
             />
-            <HomeMap data={this.state.disasters} />
+            <HomeMap data={searchResult ? disastersSearchList : disasters} />
             {this.state.searchResult && (
               <p>Showing results for {this.state.searchResult.name}</p>
             )}

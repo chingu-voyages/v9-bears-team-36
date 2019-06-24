@@ -18,7 +18,7 @@ const SearchBar = ({ countries, onChange, onReset, onSubmit, value }) => {
                   b.name.toLowerCase().indexOf(value.trim())
               )
               .map(country => (
-                <button key={country} onClick={onSubmit} value={country.id}>
+                <button key={country.id} onClick={onSubmit} value={country.id}>
                   {country.name}
                 </button>
               ))

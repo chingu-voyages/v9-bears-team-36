@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
+import './App.scss';
 import SearchBar from './SearchBar';
 import DisastersList from './DisastersList';
 import SearchResult from './SearchResult';

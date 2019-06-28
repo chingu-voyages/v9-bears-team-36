@@ -17,7 +17,7 @@ class App extends React.Component {
     disaster: null,
     disastersSearchList: [],
     search: '',
-    searchResult: ''
+    searchResult: null
   };
 
   async getAllDisasters() {
@@ -84,7 +84,7 @@ class App extends React.Component {
     e.preventDefault();
 
     this.setState(
-      () => ({ search: '', searchResult: '' }),
+      () => ({ search: '', searchResult: null, disastersSearchList: [] }),
       () => this.getAllDisasters()
     );
   };
@@ -106,6 +106,7 @@ class App extends React.Component {
       disaster: null
     }));
   };
+
   componentDidMount() {
     this.getAllDisasters();
   }
@@ -113,6 +114,7 @@ class App extends React.Component {
   render() {
     const {
       countries,
+      disaster,
       disasters,
       disastersSearchList,
       search,
@@ -121,32 +123,34 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        {this.state.disaster ? (
+        {disaster ? (
           <DisasterPageWrapper
-            disaster={this.state.disaster}
+            disaster={disaster}
             onClick={this.handleClearDisaster}
           />
         ) : (
           <div>
             <h1>Ongoing Disasters</h1>
             <SearchBar
-              countries={this.state.countries}
+              countries={countries}
               onChange={this.onSearchChange}
               onReset={this.onReset}
               onSubmit={this.onSearchSubmit}
-              value={this.state.search}
+              value={search}
             />
-            <HomeMap data={searchResult ? disastersSearchList : disasters} />
-            {this.state.searchResult && (
-              <p>Showing results for {this.state.searchResult.name}</p>
-            )}
-            {!this.state.searchResult ? (
-              <DisastersList disasters={this.state.disasters} />
+            <HomeMap
+              data={disasters}
+              searchList={disastersSearchList}
+              searchResult={searchResult}
+            />
+            {searchResult && <p>Showing results for {searchResult.name}</p>}
+            {!searchResult ? (
+              <DisastersList disasters={disasters} />
             ) : (
               <SearchResult
-                disasters={this.state.disasters}
+                disasters={disasters}
                 onClick={this.handleSetDisaster}
-                searchResult={this.state.searchResult}
+                searchResult={searchResult}
               />
             )}
           </div>

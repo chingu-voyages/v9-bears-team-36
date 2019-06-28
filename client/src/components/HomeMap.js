@@ -51,23 +51,26 @@ class HomeMap extends Component {
     }
   };
 
-  renderMarker(disaster) {
-    // Add marker only to primary country for each disaster
-    const country = disaster.countries.filter(country => country.primary);
-    const { lat } = country[0].location;
-    const { lng } = country[0].location;
+  renderMarker(countries) {
+    // Add marker for all unique countries
+    return countries.map(country => {
+      const { lat } = country.location;
+      const { lng } = country.location;
+
     return (
       <Marker
-        countryId={country[0].id}
-        name={country[0].name}
+          countryId={country.id}
+          name={country.name}
         onClick={this.onMarkerClick}
-        key={disaster.id}
+          key={country.id}
         position={{
           lat,
           lng
         }}
       />
     );
+    });
+  }
   }
 
   render() {

@@ -52,8 +52,7 @@ class App extends React.Component {
   updateDisastersSearchList = () => {
     const disasterSearchResults = this.state.disasters.filter(disaster =>
       disaster.countries.find(
-        country =>
-          country.primary && country.name === this.state.searchResult.name
+        country => country.name === this.state.searchResult.name
       )
         ? true
         : false

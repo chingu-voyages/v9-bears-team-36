@@ -1,9 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+
+import './HomeMap.scss';
 
 const mapStyles = [{ width: '100%' }, { height: '100%' }];
 
-class HomeMap extends Component {
+class HomeMap extends React.Component {
   state = {
     showingInfoWindow: false,
     activeMarker: {},
@@ -99,6 +101,7 @@ class HomeMap extends Component {
   render() {
     const { google, data, searchResult, searchList } = this.props;
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
+
     return (
       <Map
         google={google}
@@ -112,17 +115,24 @@ class HomeMap extends Component {
           : this.renderDataMarker(data)}
 
         <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
-          <>
+          <p className="title">Click for more information</p>
+          <ul className="list">
             {selectedPlace.countryDisasterList &&
               selectedPlace.countryDisasterList.map(disaster => {
                 return (
                   // Link to corresponding disaster component
-                  <a href={`/${disaster.id}`} key={disaster.id}>
+                  <li>
+                    <a
+                      href={`/${disaster.id}`}
+                      key={disaster.id}
+                      className="list__link"
+                    >
                     {disaster.name}
                   </a>
+                  </li>
                 );
               })}
-          </>
+          </ul>
         </InfoWindow>
       </Map>
     );

@@ -71,10 +71,33 @@ class HomeMap extends Component {
     );
     });
   }
+
+  renderDataMarker(data) {
+    // Add all countries to an array, filter out unique countries and return
+    const dataCountriesList = [];
+    data.map(disaster =>
+      disaster.countries.map(country => dataCountriesList.push(country))
+    );
+    const filteredDataCountriesList = dataCountriesList.filter(
+      (country, index, self) =>
+        self.findIndex(uniqueCountry => {
+          return uniqueCountry.id === country.id;
+        }) === index
+    );
+
+    return this.renderMarker(filteredDataCountriesList);
+  }
+
+  renderSearchMarker(searchResult) {
+    // Return single country from search result as an array
+    const searchArr = [];
+    searchArr.push(searchResult);
+
+    return this.renderMarker(searchArr);
   }
 
   render() {
-    const { google, data } = this.props;
+    const { google, data, searchResult, searchList } = this.props;
     const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
     return (
       <Map
@@ -84,9 +107,10 @@ class HomeMap extends Component {
         initialCenter={{ lat: 41.2284, lng: 80.9098 }}
         onClick={this.onMapClick}
       >
-        {data.map(disaster => {
-          return this.renderMarker(disaster);
-        })}
+        {searchList.length
+          ? this.renderSearchMarker(searchResult)
+          : this.renderDataMarker(data)}
+
         <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
           <>
             {selectedPlace.countryDisasterList &&

@@ -25,8 +25,22 @@ router.get('/', function(req, res) {
         sort: 'relevance'
       }
     })
-    .then(({ data }) => data)
-    .then(data => res.json(data.response.docs));
+    .then(({ data }) => data.response)
+    .then(response => {
+      const articles = response.docs.map(article => {
+        const images = article.multimedia.filter(
+          media => media.type === 'image'
+        );
+
+        return {
+          ...article,
+          multimedia:
+            images.length > 0 ? 'https://nyt.com/' + images[0].url : ''
+        };
+      });
+
+      res.json(articles);
+    });
 });
 
 module.exports = router;

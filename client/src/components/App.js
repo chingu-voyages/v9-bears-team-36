@@ -123,6 +123,7 @@ class App extends React.Component {
           <DisasterPageWrapper
             disaster={disaster}
             onClick={this.handleClearDisaster}
+            searchResult={this.state.searchResult}
           />
         ) : (
           <div>

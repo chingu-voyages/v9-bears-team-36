@@ -12,9 +12,15 @@ class DisasterPageWrapper extends React.Component {
   };
 
   async componentDidMount() {
-    const { disaster } = this.props;
+    const { disaster, searchResult } = this.props;
 
-    const articles = await axios.get('/nyt');
+    const articles = await axios.get('/nyt', {
+      params: {
+        name: disaster.name,
+        country: searchResult.name,
+        date: disaster.date
+      }
+    });
 
     const longDescription = disaster.description
       .replace(/\(http.*\)/gi, '')

@@ -3,8 +3,6 @@ import axios from 'axios';
 
 import './App.scss';
 import SearchBar from './SearchBar';
-import DisastersList from './DisastersList';
-import SearchResult from './SearchResult';
 import DisasterPageWrapper from './DisasterPageWrapper';
 import HomeMap from './HomeMap';
 
@@ -89,9 +87,7 @@ class App extends React.Component {
     );
   };
 
-  handleSetDisaster = e => {
-    const disasterId = e.target.value;
-
+  handleSetDisaster = disasterId => {
     const disaster = this.state.disasters.find(
       disaster => disaster.id === Number(disasterId)
     );
@@ -138,21 +134,13 @@ class App extends React.Component {
               onSubmit={this.onSearchSubmit}
               value={search}
             />
+            {searchResult && <p>Showing results for {searchResult.name}</p>}
             <HomeMap
               data={disasters}
               searchList={disastersSearchList}
               searchResult={searchResult}
+              handleSetDisaster={this.handleSetDisaster}
             />
-            {searchResult && <p>Showing results for {searchResult.name}</p>}
-            {!searchResult ? (
-              <DisastersList disasters={disasters} />
-            ) : (
-              <SearchResult
-                disasters={disasters}
-                onClick={this.handleSetDisaster}
-                searchResult={searchResult}
-              />
-            )}
           </div>
         )}
       </div>

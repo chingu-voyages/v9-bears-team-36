@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 import './HomeMap.scss';
@@ -11,6 +12,35 @@ class HomeMap extends React.Component {
     activeMarker: {},
     selectedPlace: {}
   };
+
+  onInfoWindowOpen(props, e) {
+    // infoWindow is rendered from a string and loses all event bindings
+    // Solution here - https://github.com/fullstackreact/google-maps-react/issues/70
+    const { activeMarker, selectedPlace } = this.state;
+
+    const list = (
+      <ul className="list">
+        <p className="title">{activeMarker ? activeMarker.name : ''}</p>
+        {selectedPlace.countryDisasterList &&
+          selectedPlace.countryDisasterList.map(disaster => {
+            return (
+              // Button to render corresponding disaster component
+              <li key={disaster.id}>
+                <button
+                  value={disaster.id}
+                  onClick={e => {
+                    props.handleSetDisaster(disaster.id);
+                  }}
+                >
+                  {disaster.name}
+                </button>
+              </li>
+            );
+          })}
+      </ul>
+    );
+    ReactDOM.render(React.Children.only(list), document.getElementById('iwc'));
+  }
 
   onMarkerClick = (props, marker) => {
     // Map over this.props [disasters] to find all disasters that list the Marker country in their [countries]
@@ -59,18 +89,18 @@ class HomeMap extends React.Component {
       const { lat } = country.location;
       const { lng } = country.location;
 
-    return (
-      <Marker
+      return (
+        <Marker
           countryId={country.id}
           name={country.name}
-        onClick={this.onMarkerClick}
+          onClick={this.onMarkerClick}
           key={country.id}
-        position={{
-          lat,
-          lng
-        }}
-      />
-    );
+          position={{
+            lat,
+            lng
+          }}
+        />
+      );
     });
   }
 
@@ -100,7 +130,7 @@ class HomeMap extends React.Component {
 
   render() {
     const { google, data, searchResult, searchList } = this.props;
-    const { activeMarker, showingInfoWindow, selectedPlace } = this.state;
+    const { activeMarker, showingInfoWindow } = this.state;
 
     return (
       <Map
@@ -114,26 +144,14 @@ class HomeMap extends React.Component {
           ? this.renderSearchMarker(searchResult)
           : this.renderDataMarker(data)}
 
-        <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
-          <p className="title">Click for more information</p>
-          <ul className="list">
-            <p className="title">{activeMarker ? activeMarker.name : ''}</p>
-            {selectedPlace.countryDisasterList &&
-              selectedPlace.countryDisasterList.map(disaster => {
-                return (
-                  // Link to corresponding disaster component
-                  <li>
-                    <a
-                      href={`/${disaster.id}`}
-                      key={disaster.id}
-                      className="list__link"
-                    >
-                    {disaster.name}
-                  </a>
-                  </li>
-                );
-              })}
-          </ul>
+        <InfoWindow
+          marker={activeMarker}
+          visible={showingInfoWindow}
+          onOpen={e => {
+            this.onInfoWindowOpen(this.props, e);
+          }}
+        >
+          <div id="iwc" />
         </InfoWindow>
       </Map>
     );

@@ -117,6 +117,7 @@ class HomeMap extends React.Component {
         <InfoWindow marker={activeMarker} visible={showingInfoWindow}>
           <p className="title">Click for more information</p>
           <ul className="list">
+            <p className="title">{activeMarker ? activeMarker.name : ''}</p>
             {selectedPlace.countryDisasterList &&
               selectedPlace.countryDisasterList.map(disaster => {
                 return (

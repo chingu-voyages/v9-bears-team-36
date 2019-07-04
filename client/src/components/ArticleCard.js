@@ -1,12 +1,14 @@
 import React from 'react';
 
+import './ArticleCard.scss';
+
 const ArticleCard = ({ article }) => (
-  <a href={article.web_url}>
-    <h3>{article.headline.main}</h3>
+  <a className="card" href={article.web_url} title={article.headline.main}>
+    <h3 className="card__text">{article.headline.main}</h3>
     {article.multimedia && (
-      <img
-        style={{ height: '100px', width: '100px' }}
-        src={article.multimedia}
+      <div
+        className="card__image"
+        style={{ backgroundImage: `url('${article.multimedia}')` }}
       />
     )}
   </a>

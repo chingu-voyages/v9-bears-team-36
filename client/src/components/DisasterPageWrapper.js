@@ -17,8 +17,7 @@ class DisasterPageWrapper extends React.Component {
     const articles = await axios.get('/nyt', {
       params: {
         name: disaster.name,
-        country: searchResult.name,
-        date: disaster.date
+        country: searchResult.name
       }
     });
 

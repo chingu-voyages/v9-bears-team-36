@@ -30,7 +30,7 @@ router.get('/', function(_, res) {
                 id: country.id,
                 location: {
                   lat: country.location.lat,
-                  lon: country.location.lon
+                  lng: country.location.lon
                 },
                 name: country.name,
                 primary: country.primary ? country.primary : false

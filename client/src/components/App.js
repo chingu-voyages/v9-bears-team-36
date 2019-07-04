@@ -3,20 +3,22 @@ import axios from 'axios';
 
 import './App.scss';
 import SearchBar from './SearchBar';
-import DisastersList from './DisastersList';
-import SearchResult from './SearchResult';
 import DisasterPageWrapper from './DisasterPageWrapper';
+import HomeMap from './HomeMap';
+
+require('dotenv').config();
 
 class App extends React.Component {
   state = {
     countries: [],
     disasters: [],
     disaster: null,
+    disastersSearchList: [],
     search: '',
-    searchResult: ''
+    searchResult: null
   };
 
-  async componentDidMount() {
+  async getAllDisasters() {
     const res = await axios.get('/relief');
     const disasters = res.data;
 
@@ -28,7 +30,7 @@ class App extends React.Component {
             id: country.id,
             location: {
               lat: country.location.lat,
-              lon: country.location.lon
+              lng: country.location.lng
             },
             name: country.name
           });
@@ -45,6 +47,20 @@ class App extends React.Component {
     this.setState(() => ({ search: search.toLowerCase() }));
   };
 
+  updateDisastersSearchList = () => {
+    const disasterSearchResults = this.state.disasters.filter(disaster =>
+      disaster.countries.find(
+        country => country.name === this.state.searchResult.name
+      )
+        ? true
+        : false
+    );
+
+    this.setState(() => ({
+      disastersSearchList: disasterSearchResults
+    }));
+  };
+
   onSearchSubmit = e => {
     e.preventDefault();
 
@@ -53,21 +69,25 @@ class App extends React.Component {
       country => country.id === searchId
     );
 
-    this.setState(() => ({
-      search: '',
-      searchResult
-    }));
+    this.setState(
+      () => ({
+        search: '',
+        searchResult
+      }),
+      () => this.updateDisastersSearchList()
+    );
   };
 
   onReset = e => {
     e.preventDefault();
 
-    this.setState(() => ({ search: '', searchResult: '' }));
+    this.setState(
+      () => ({ search: '', searchResult: null, disastersSearchList: [] }),
+      () => this.getAllDisasters()
+    );
   };
 
-  handleSetDisaster = e => {
-    const disasterId = e.target.value;
-
+  handleSetDisaster = disasterId => {
     const disaster = this.state.disasters.find(
       disaster => disaster.id === Number(disasterId)
     );
@@ -83,36 +103,44 @@ class App extends React.Component {
     }));
   };
 
+  componentDidMount() {
+    this.getAllDisasters();
+  }
+
   render() {
+    const {
+      countries,
+      disaster,
+      disasters,
+      disastersSearchList,
+      search,
+      searchResult
+    } = this.state;
+
     return (
       <div className="App">
-        {this.state.disaster ? (
+        {disaster ? (
           <DisasterPageWrapper
-            disaster={this.state.disaster}
+            disaster={disaster}
             onClick={this.handleClearDisaster}
           />
         ) : (
           <div>
             <h1>Ongoing Disasters</h1>
             <SearchBar
-              countries={this.state.countries}
+              countries={countries}
               onChange={this.onSearchChange}
               onReset={this.onReset}
               onSubmit={this.onSearchSubmit}
-              value={this.state.search}
+              value={search}
             />
-            {this.state.searchResult && (
-              <p>Showing results for {this.state.searchResult.name}</p>
-            )}
-            {!this.state.searchResult ? (
-              <DisastersList disasters={this.state.disasters} />
-            ) : (
-              <SearchResult
-                disasters={this.state.disasters}
-                onClick={this.handleSetDisaster}
-                searchResult={this.state.searchResult}
-              />
-            )}
+            {searchResult && <p>Showing results for {searchResult.name}</p>}
+            <HomeMap
+              data={disasters}
+              searchList={disastersSearchList}
+              searchResult={searchResult}
+              handleSetDisaster={this.handleSetDisaster}
+            />
           </div>
         )}
       </div>

@@ -34,6 +34,7 @@ const DisasterPage = ({
       <button className="toggle-button" onClick={toggleDescription}>
         {showLongDescription ? 'Show less' : 'Show more'}
       </button>
+      <h3>Related Stories</h3>
       {articles.map(article => (
         <ArticleCard article={article} />
       ))}

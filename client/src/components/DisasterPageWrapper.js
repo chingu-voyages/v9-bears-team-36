@@ -12,12 +12,12 @@ class DisasterPageWrapper extends React.Component {
   };
 
   async componentDidMount() {
-    const { disaster, searchResult } = this.props;
+    const { disaster, selectedCountry } = this.props;
 
     const articles = await axios.get('/nyt', {
       params: {
         name: disaster.name,
-        country: searchResult.name
+        country: selectedCountry.name
       }
     });
 

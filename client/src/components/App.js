@@ -16,7 +16,7 @@ class App extends React.Component {
     disastersSearchList: [],
     filterBySearch: false,
     search: '',
-    searchResult: null
+    selectedCountry: null
   };
 
   async getAllDisasters() {
@@ -52,7 +52,7 @@ class App extends React.Component {
     if (this.state.filterBySearch) {
       const disasterSearchResults = this.state.disasters.filter(disaster =>
         disaster.countries.find(
-          country => country.name === this.state.searchResult.name
+          country => country.name === this.state.selectedCountry.name
         )
           ? true
           : false
@@ -69,7 +69,7 @@ class App extends React.Component {
       () => ({
         filterBySearch,
         search: '',
-        searchResult: this.state.countries.find(
+        selectedCountry: this.state.countries.find(
           country => country.id === countryId
         )
       }),
@@ -89,7 +89,7 @@ class App extends React.Component {
     e.preventDefault();
 
     this.setState(
-      () => ({ search: '', searchResult: null, disastersSearchList: [] }),
+      () => ({ search: '', selectedCountry: null, disastersSearchList: [] }),
       () => this.getAllDisasters()
     );
   };
@@ -121,7 +121,7 @@ class App extends React.Component {
       disasters,
       disastersSearchList,
       search,
-      searchResult
+      selectedCountry
     } = this.state;
 
     return (
@@ -130,7 +130,7 @@ class App extends React.Component {
           <DisasterPageWrapper
             disaster={disaster}
             onClick={this.handleClearDisaster}
-            searchResult={searchResult}
+            selectedCountry={selectedCountry}
           />
         ) : (
           <div>
@@ -142,11 +142,10 @@ class App extends React.Component {
               onSubmit={this.onSearchSubmit}
               value={search}
             />
-            {searchResult && <p>Showing results for {searchResult.name}</p>}
             <HomeMap
               data={disasters}
               searchList={disastersSearchList}
-              searchResult={searchResult}
+              searchResult={selectedCountry}
               handleSetDisaster={this.handleSetDisaster}
               onMarkerClick={this.setSelectedCountry}
             />

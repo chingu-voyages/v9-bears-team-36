@@ -72,6 +72,8 @@ class HomeMap extends React.Component {
       activeMarker: marker,
       showingInfoWindow: true
     });
+
+    this.props.onMarkerClick(props.countryId);
   };
 
   onMapClick = () => {

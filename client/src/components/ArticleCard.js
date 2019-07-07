@@ -3,7 +3,13 @@ import React from 'react';
 import './ArticleCard.scss';
 
 const ArticleCard = ({ article }) => (
-  <a className="card" href={article.web_url} title={article.headline.main}>
+  <a
+    className="card"
+    href={article.web_url}
+    rel="noopener noreferrer"
+    target="_blank"
+    title={article.headline.main}
+  >
     <h3 className="card__text">{article.headline.main}</h3>
     {article.multimedia && (
       <div

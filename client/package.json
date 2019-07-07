@@ -16,7 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "server": "cd ../server && node server.js",
+    "server": "cd ../server && npm run dev",
     "dev": "concurrently \"yarn run server\" \"yarn start\"",
     "dev:npm": "concurrently \"npm run server\" \"npm start\""
   },

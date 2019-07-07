@@ -1,0 +1,25 @@
+.card {
+  background: white;
+  border-radius: 0.2rem;
+  display: grid;
+  grid-template-columns: 1fr 10rem;
+  height: 12rem;
+  margin: 1rem;
+  overflow: hidden;
+  text-decoration: none;
+  width: 30rem;
+}
+
+.card__text {
+  align-items: center;
+  display: flex;
+  font-size: 1.5rem;
+  padding: 1rem 1rem 1rem 1.5rem;
+}
+
+.card__image {
+  background-size: cover;
+  background-position: center;
+  height: 12rem;
+  width: 12rem;
+}

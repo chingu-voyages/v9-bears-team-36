@@ -1,16 +1,27 @@
 import React from 'react';
+import axios from 'axios';
 
 import DisasterPage from './DisasterPage';
 
 class DisasterPageWrapper extends React.Component {
   state = {
+    articles: [],
     longDescription: '',
     shortDescription: '',
     showLongDescription: false
   };
 
-  componentDidMount() {
-    const longDescription = this.props.disaster.description
+  async componentDidMount() {
+    const { disaster, searchResult } = this.props;
+
+    const articles = await axios.get('/nyt', {
+      params: {
+        name: disaster.name,
+        country: searchResult.name
+      }
+    });
+
+    const longDescription = disaster.description
       .replace(/\(http.*\)/gi, '')
       .replace(/\(\[.*\]/g, '')
       .replace(/###.*/g, '')
@@ -18,7 +29,11 @@ class DisasterPageWrapper extends React.Component {
       .replace(/\[<img.*>\]/g, '');
     const shortDescription = longDescription.split('. ', 3).join('. ') + '.';
 
-    this.setState(() => ({ longDescription, shortDescription }));
+    this.setState(() => ({
+      articles: articles.data,
+      longDescription,
+      shortDescription
+    }));
   }
 
   toggleDescription = () => {

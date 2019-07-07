@@ -14,8 +14,9 @@ class App extends React.Component {
     disasters: [],
     disaster: null,
     disastersSearchList: [],
+    filterBySearch: false,
     search: '',
-    searchResult: null
+    selectedCountry: null
   };
 
   async getAllDisasters() {
@@ -48,41 +49,47 @@ class App extends React.Component {
   };
 
   updateDisastersSearchList = () => {
-    const disasterSearchResults = this.state.disasters.filter(disaster =>
-      disaster.countries.find(
-        country => country.name === this.state.searchResult.name
-      )
-        ? true
-        : false
-    );
+    if (this.state.filterBySearch) {
+      const disasterSearchResults = this.state.disasters.filter(disaster =>
+        disaster.countries.find(
+          country => country.name === this.state.selectedCountry.name
+        )
+          ? true
+          : false
+      );
 
-    this.setState(() => ({
-      disastersSearchList: disasterSearchResults
-    }));
+      this.setState(() => ({
+        disastersSearchList: disasterSearchResults
+      }));
+    }
+  };
+
+  setSelectedCountry = (countryId, filterBySearch = false) => {
+    this.setState(
+      () => ({
+        filterBySearch,
+        search: '',
+        selectedCountry: this.state.countries.find(
+          country => country.id === countryId
+        )
+      }),
+      () => this.updateDisastersSearchList()
+    );
   };
 
   onSearchSubmit = e => {
     e.preventDefault();
 
-    const searchId = Number(e.target.value);
-    const searchResult = this.state.countries.find(
-      country => country.id === searchId
-    );
+    const countryId = Number(e.target.value);
 
-    this.setState(
-      () => ({
-        search: '',
-        searchResult
-      }),
-      () => this.updateDisastersSearchList()
-    );
+    this.setSelectedCountry(countryId, true);
   };
 
   onReset = e => {
     e.preventDefault();
 
     this.setState(
-      () => ({ search: '', searchResult: null, disastersSearchList: [] }),
+      () => ({ search: '', selectedCountry: null, disastersSearchList: [] }),
       () => this.getAllDisasters()
     );
   };
@@ -114,7 +121,7 @@ class App extends React.Component {
       disasters,
       disastersSearchList,
       search,
-      searchResult
+      selectedCountry
     } = this.state;
 
     return (
@@ -123,7 +130,7 @@ class App extends React.Component {
           <DisasterPageWrapper
             disaster={disaster}
             onClick={this.handleClearDisaster}
-            searchResult={this.state.searchResult}
+            selectedCountry={selectedCountry}
           />
         ) : (
           <div>
@@ -135,12 +142,12 @@ class App extends React.Component {
               onSubmit={this.onSearchSubmit}
               value={search}
             />
-            {searchResult && <p>Showing results for {searchResult.name}</p>}
             <HomeMap
               data={disasters}
               searchList={disastersSearchList}
-              searchResult={searchResult}
+              searchResult={selectedCountry}
               handleSetDisaster={this.handleSetDisaster}
+              onMarkerClick={this.setSelectedCountry}
             />
           </div>
         )}

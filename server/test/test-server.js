@@ -12,13 +12,19 @@ describe('/relief', function() {
       .get('/relief')
       .end(function(err, res) {
         expect(res).to.have.status(200);
+        expect(res.body).to.have.lengthOf.greaterThan(0);
+        expect(res.body[0]).to.have.property('countries');
+        expect(res.body[0]).to.have.property('description');
+        expect(res.body[0]).to.have.property('id');
+        expect(res.body[0]).to.have.property('name');
+        expect(res.body[0]).to.have.property('types');
         done();
       });
   });
 });
 
 describe('/nyt', function() {
-  it('should return articles on /', function(done) {
+  it('should return 10 articles on /', function(done) {
     chai
       .request(server)
       .get('/nyt')
@@ -28,6 +34,10 @@ describe('/nyt', function() {
       })
       .end(function(err, res) {
         expect(res).to.have.status(200);
+        expect(res.body).to.have.lengthOf(10);
+        expect(res.body[0]).to.have.property('multimedia');
+        expect(res.body[0]).to.have.property('web_url');
+        expect(res.body[0]).to.have.nested.property('headline.main');
         done();
       });
   });

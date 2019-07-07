@@ -1,7 +1,7 @@
-var chai = require('chai');
-var chaiHttp = require('chai-http');
-var server = require('../server');
-var should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../server');
+const expect = chai.expect;
 
 chai.use(chaiHttp);
 
@@ -11,7 +11,7 @@ describe('/relief', function() {
       .request(server)
       .get('/relief')
       .end(function(err, res) {
-        res.should.have.status(200);
+        expect(res).to.have.status(200);
         done();
       });
   });
@@ -27,7 +27,7 @@ describe('/nyt', function() {
         country: 'Democratic Republic of the Congo'
       })
       .end(function(err, res) {
-        res.should.have.status(200);
+        expect(res).to.have.status(200);
         done();
       });
   });

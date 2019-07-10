@@ -8,6 +8,7 @@ const DisasterPage = ({
   articles,
   disaster,
   disasterTypes,
+  error,
   longDescription,
   onClick,
   shortDescription,
@@ -35,6 +36,7 @@ const DisasterPage = ({
         {showLongDescription ? 'Show less' : 'Show more'}
       </button>
       <h3>Related Stories</h3>
+      {error && <p>{error}</p>}
       {articles.map(article => (
         <ArticleCard article={article} />
       ))}

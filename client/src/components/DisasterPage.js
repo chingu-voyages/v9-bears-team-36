@@ -32,9 +32,11 @@ const DisasterPage = ({
       <p className="description">
         {showLongDescription ? longDescription : shortDescription}
       </p>
-      <button className="toggle-button" onClick={toggleDescription}>
-        {showLongDescription ? 'Show less' : 'Show more'}
-      </button>
+      {longDescription && (
+        <button className="toggle-button" onClick={toggleDescription}>
+          {showLongDescription ? 'Show less' : 'Show more'}
+        </button>
+      )}
       <h3>Related Stories</h3>
       {error && <p>{error}</p>}
       {articles.map(article => (

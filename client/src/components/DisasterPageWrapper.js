@@ -6,6 +6,7 @@ import DisasterPage from './DisasterPage';
 class DisasterPageWrapper extends React.Component {
   state = {
     articles: [],
+    error: '',
     longDescription: '',
     shortDescription: '',
     showLongDescription: false
@@ -13,13 +14,6 @@ class DisasterPageWrapper extends React.Component {
 
   async componentDidMount() {
     const { disaster, selectedCountry } = this.props;
-
-    const articles = await axios.get('/nyt', {
-      params: {
-        name: disaster.name,
-        country: selectedCountry.name
-      }
-    });
 
     const longDescription = disaster.description
       .replace(/\(http.*\)/gi, '')
@@ -29,11 +23,27 @@ class DisasterPageWrapper extends React.Component {
       .replace(/\[<img.*>\]/g, '');
     const shortDescription = longDescription.split('. ', 3).join('. ') + '.';
 
-    this.setState(() => ({
-      articles: articles.data,
-      longDescription,
-      shortDescription
-    }));
+    const articles = await axios.get('/nyt', {
+      params: {
+        name: disaster.name,
+        country: selectedCountry.name
+      }
+    });
+    console.log(articles);
+
+    if (articles.data.error) {
+      this.setState(() => ({
+        error: articles.data.error,
+        longDescription,
+        shortDescription
+      }));
+    } else {
+      this.setState(() => ({
+        articles: articles.data,
+        longDescription,
+        shortDescription
+      }));
+    }
   }
 
   toggleDescription = () => {

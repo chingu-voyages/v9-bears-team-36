@@ -40,6 +40,9 @@ router.get('/', function(req, res) {
       });
 
       res.json(articles);
+    })
+    .catch(err => {
+      res.send({ error: 'Could not load articles' });
     });
 });
 

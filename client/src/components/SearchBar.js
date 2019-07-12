@@ -1,12 +1,24 @@
 import React from 'react';
 
-const SearchBar = ({ countries, onChange, onReset, onSubmit, value }) => {
+const SearchBar = ({
+  countries,
+  disabled,
+  onChange,
+  onReset,
+  onSubmit,
+  value
+}) => {
   const matches = countries.filter(country =>
     country.name.toLowerCase().includes(value.trim())
   );
   return (
     <div>
-      <input onChange={onChange} placeholder="Find by Country" value={value} />
+      <input
+        disabled={disabled}
+        onChange={onChange}
+        placeholder="Find by Country"
+        value={value}
+      />
       <button onClick={onReset}>View All</button>
       {value && (
         <div>

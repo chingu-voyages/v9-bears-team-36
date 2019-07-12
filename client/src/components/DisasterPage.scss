@@ -29,31 +29,39 @@
   overflow-y: auto;
 }
 
-.header {
+.disaster__container {
+  margin-bottom: 3rem;
+}
+
+%header {
   color: slateblue;
-  font-size: 3rem;
   font-weight: 100;
   margin-bottom: 2rem;
 }
 
-.list {
+.disaster__header {
+  @extend %header;
+  font-size: 3rem;
+}
+
+.disaster__list {
   font-size: 2rem;
   margin-bottom: 1rem;
 }
 
-.list__label {
+.disaster__list__label {
   color: darkslateblue;
   font-size: 1.8rem;
   font-weight: 900;
 }
 
-.description {
+.disaster__description {
   font-size: 1.8rem;
   margin: 2rem 0;
   max-width: 60rem;
 }
 
-.toggle-button {
+.description__toggle-button {
   background: none;
   border: 1px solid darkslateblue;
   border-radius: 1rem;
@@ -62,7 +70,16 @@
   padding: 1rem 2rem;
 }
 
-.toggle-button:hover {
+.description__toggle-button:hover {
   background: darkslateblue;
   color: lightsteelblue;
+}
+
+.articles__header {
+  @extend %header;
+  font-size: 2.4rem;
+}
+
+.articles__error {
+  font-size: 1.8rem;
 }

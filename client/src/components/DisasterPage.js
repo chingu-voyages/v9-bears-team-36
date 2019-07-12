@@ -20,28 +20,35 @@ const DisasterPage = ({
       {'<'}
     </button>
     <div className="content__container">
-      <h2 className="header">{disaster.name}</h2>
-      <p className="list">
-        <span className="list__label">Affected Countries: </span>
-        {affectedCountries}
-      </p>
-      <p className="list">
-        <span className="list__label">Disaster Type: </span>
-        {disasterTypes}
-      </p>
-      <p className="description">
-        {showLongDescription ? longDescription : shortDescription}
-      </p>
-      {longDescription && (
-        <button className="toggle-button" onClick={toggleDescription}>
-          {showLongDescription ? 'Show less' : 'Show more'}
-        </button>
-      )}
-      <h3>Related Stories</h3>
-      {error && <p>{error}</p>}
-      {articles.map(article => (
-        <ArticleCard article={article} />
-      ))}
+      <div className="disaster__container">
+        <h2 className="disaster__header">{disaster.name}</h2>
+        <p className="disaster__list">
+          <span className="disaster__list__label">Affected Countries: </span>
+          {affectedCountries}
+        </p>
+        <p className="disaster__list">
+          <span className="disaster__list__label">Disaster Type: </span>
+          {disasterTypes}
+        </p>
+        <p className="disaster__description">
+          {showLongDescription ? longDescription : shortDescription}
+        </p>
+        {longDescription && (
+          <button
+            className="description__toggle-button"
+            onClick={toggleDescription}
+          >
+            {showLongDescription ? 'Show less' : 'Show more'}
+          </button>
+        )}
+      </div>
+      <div className="articles__container">
+        <h3 className="articles__header">Related Stories</h3>
+        {error && <p className="articles__error">{error}</p>}
+        {articles.map(article => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
     </div>
   </div>
 );

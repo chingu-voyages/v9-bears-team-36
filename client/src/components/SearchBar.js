@@ -6,6 +6,7 @@ const SearchBar = ({
   onChange,
   onReset,
   onSubmit,
+  selectedCountry,
   value
 }) => {
   const matches = countries.filter(country =>
@@ -19,7 +20,12 @@ const SearchBar = ({
         placeholder="Find by Country"
         value={value}
       />
-      <button onClick={onReset}>View All</button>
+      {selectedCountry && (
+        <p>
+          {selectedCountry.name}
+          <button onClick={onReset}>×</button>
+        </p>
+      )}
       {value && (
         <div>
           {matches.length > 0 ? (

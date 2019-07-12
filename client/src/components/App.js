@@ -143,10 +143,11 @@ class App extends React.Component {
             <h1>Ongoing Disasters</h1>
             <SearchBar
               countries={countries}
+              disabled={filterBySearch}
               onChange={this.onSearchChange}
               onReset={this.onReset}
               onSubmit={this.onSearchSubmit}
-              disabled={filterBySearch}
+              selectedCountry={selectedCountry}
               value={search}
             />
             <HomeMap

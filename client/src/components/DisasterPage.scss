@@ -75,6 +75,14 @@
   color: lightsteelblue;
 }
 
+.articles__grid {
+  display: grid;
+  grid-auto-rows: 30rem;
+  grid-gap: 2rem 3rem;
+  grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
+  justify-items: center;
+}
+
 .articles__header {
   @extend %header;
   font-size: 2.4rem;

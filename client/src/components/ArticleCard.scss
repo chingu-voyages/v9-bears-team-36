@@ -3,11 +3,12 @@
   border-radius: 0.2rem;
   display: grid;
   grid-template-columns: 1fr 10rem;
-  height: 12rem;
+  height: 100%;
   margin: 1rem;
+  max-width: 32rem;
   overflow: hidden;
   text-decoration: none;
-  width: 30rem;
+  width: 100%;
 }
 
 .card__text {

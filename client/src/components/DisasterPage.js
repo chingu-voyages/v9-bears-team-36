@@ -45,9 +45,11 @@ const DisasterPage = ({
       <div className="articles__container">
         <h3 className="articles__header">Related Stories</h3>
         {error && <p className="articles__error">{error}</p>}
-        {articles.map(article => (
-          <ArticleCard article={article} />
-        ))}
+        <div className="articles__grid">
+          {articles.map(article => (
+            <ArticleCard article={article} />
+          ))}
+        </div>
       </div>
     </div>
   </div>

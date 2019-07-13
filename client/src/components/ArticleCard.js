@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 import './ArticleCard.scss';
 
@@ -25,9 +26,12 @@ const ArticleCard = ({ article }) => {
         {article.abstract.split(' ', 26).join(' ')}
         {ellipsis}
       </p>
-      <p className="card__read-time">
-        {Math.round(article.word_count / 250)} min read
-      </p>
+      <div className="card__misc-info">
+        <p className="card__published">{moment(article.pub_date).fromNow()}</p>
+        <p className="card__read-time">
+          {Math.round(article.word_count / 250)} min read
+        </p>
+      </div>
     </a>
   );
 };

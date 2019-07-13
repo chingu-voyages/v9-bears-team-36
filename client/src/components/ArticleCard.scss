@@ -35,8 +35,14 @@
   padding: 0 2rem;
 }
 
+.card__misc-info {
+  color: slategray;
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
 .card__read-time {
   color: slategray;
-  line-height: 6rem;
-  text-align: center;
+  // line-height: 6rem;
 }

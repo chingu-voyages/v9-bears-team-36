@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
+import nytLogo from '../assets/the-new-york-times-logo-vert.png';
 import './ArticleCard.scss';
 
 const ArticleCard = ({ article }) => {
@@ -13,17 +14,17 @@ const ArticleCard = ({ article }) => {
       target="_blank"
       title={article.headline.main}
     >
-      {article.multimedia ? (
-        <div
-          className="card__image"
-          style={{ backgroundImage: `url('${article.multimedia}')` }}
-        />
-      ) : (
-        <div className="image__background" />
-      )}
+      <div
+        className="card__image"
+        style={{
+          background: article.multimedia
+            ? `center / cover no-repeat url('${article.multimedia}')`
+            : `center / 40% 50% no-repeat url('${nytLogo}')`
+        }}
+      />
       <h3 className="card__title">{article.headline.main}</h3>
       <p className="card__abstract">
-        {article.abstract.split(' ', 26).join(' ')}
+        {article.abstract.split(' ', 24).join(' ')}
         {ellipsis}
       </p>
       <div className="card__misc-info">

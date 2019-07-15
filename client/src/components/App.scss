@@ -6,18 +6,28 @@
   margin: 0;
 }
 
+.app {
+  height: 100vh;
+  overflow: hidden;
+}
+
 .main-page {
   background-color: darkslateblue;
-  display: grid;
-  grid-template-rows: 5rem 7rem 1fr;
-  grid-template-areas: 'title', 'search', 'map';
   height: 100vh;
+  overflow: hidden;
+  padding: 1rem 0;
   width: 100vw;
 }
 
 .app__title {
   color: white;
   font-size: 4rem;
-  text-align: center;
   letter-spacing: 0.2rem;
+  margin: 1rem;
+  text-align: center;
+}
+
+.map__container {
+  height: 70vh;
+  overflow: hidden;
 }

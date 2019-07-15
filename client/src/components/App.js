@@ -125,7 +125,6 @@ class App extends React.Component {
       disaster,
       disasters,
       disastersSearchList,
-      filterBySearch,
       search,
       selectedCountry
     } = this.state;
@@ -139,11 +138,11 @@ class App extends React.Component {
             selectedCountry={selectedCountry}
           />
         ) : (
-          <div>
-            <h1>Ongoing Disasters</h1>
+          <div className="main-page">
+            <h1 className="app__title">Global Disasters</h1>
             <SearchBar
               countries={countries}
-              disabled={filterBySearch}
+              disabled={selectedCountry}
               onChange={this.onSearchChange}
               onReset={this.onReset}
               onSubmit={this.onSearchSubmit}

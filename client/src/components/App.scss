@@ -5,3 +5,19 @@
   font-size: 10px;
   margin: 0;
 }
+
+.main-page {
+  background-color: darkslateblue;
+  display: grid;
+  grid-template-rows: 5rem 7rem 1fr;
+  grid-template-areas: 'title', 'search', 'map';
+  height: 100vh;
+  width: 100vw;
+}
+
+.app__title {
+  color: white;
+  font-size: 4rem;
+  text-align: center;
+  letter-spacing: 0.2rem;
+}

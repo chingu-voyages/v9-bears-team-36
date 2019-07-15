@@ -24,24 +24,25 @@
 
 .content__container {
   height: 100vh;
-  padding: 4rem;
-  padding-top: 9rem;
   overflow-y: auto;
 }
 
 .disaster__container {
   margin-bottom: 3rem;
+  padding: 4rem;
+  padding-top: 9rem;
 }
 
 %header {
-  color: slateblue;
   font-weight: 100;
-  margin-bottom: 2rem;
 }
 
 .disaster__header {
   @extend %header;
+  color: slateblue;
   font-size: 3rem;
+  font-weight: 100;
+  margin-bottom: 2rem;
 }
 
 .disaster__list {
@@ -76,20 +77,26 @@
 }
 
 .articles__container {
-  margin-bottom: 5rem;
+  background: darkslateblue;
+  margin: 0;
+  padding: 2rem;
+  padding-bottom: 5rem;
+  width: 100vw;
 }
 
 .articles__grid {
   display: grid;
   grid-auto-rows: 40rem;
-  grid-gap: 2rem 3rem;
+  grid-gap: 2rem;
   grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr));
   justify-items: center;
 }
 
 .articles__header {
   @extend %header;
-  font-size: 2.4rem;
+  color: rgb(182, 173, 247);
+  font-size: 2.8rem;
+  padding: 4rem;
 }
 
 .articles__error {

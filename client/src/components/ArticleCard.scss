@@ -13,9 +13,6 @@
   width: 100%;
 }
 
-.card:hover {
-}
-
 .card__image {
   border-bottom: 1px solid #eee;
   width: 100%;
@@ -26,6 +23,7 @@
   color: rgb(69, 1, 228);
   display: flex;
   font-size: 1.8rem;
+  justify-content: center;
   padding: 1.5rem;
   text-align: center;
 }
@@ -37,13 +35,8 @@
 }
 
 .card__misc-info {
-  color: slategray;
+  color: #aaa;
   display: flex;
   justify-content: space-between;
   padding: 2rem;
-}
-
-.card__read-time {
-  color: slategray;
-  // line-height: 6rem;
 }

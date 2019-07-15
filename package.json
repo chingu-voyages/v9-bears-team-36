@@ -1,0 +1,25 @@
+{
+  "name": "global-disaster-map",
+  "version": "1.0.0",
+  "description": "An interactive map based on the [Relief Web API](https://reliefweb.int/help/api) with relevant information and news articles.",
+  "author": "mawarijo & marshalldanel",
+  "private": true,
+  "scripts": {
+    "heroku-prebuild": "cd client && npm install && cd .. && cd server && npm install",
+    "start": "cd server && npm run start",
+    "heroku-postbuild": "cd client && npm run build"
+  },
+  "keywords": ["example", "heroku"],
+  "license": "MIT",
+  "engines": {
+    "node": "10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chingu-voyages/v9-bears-team-36"
+  },
+  "bugs": {
+    "url": "https://github.com/chingu-voyages/v9-bears-team-36/issues"
+  },
+  "homepage": "https://github.com/chingu-voyages/v9-bears-team-36#readme"
+}

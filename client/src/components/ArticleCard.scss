@@ -15,12 +15,26 @@
 
 .card__image {
   border-bottom: 1px solid #eee;
+  transition: all 150ms ease-in-out;
+  opacity: 1;
   width: 100%;
+}
+
+.card:hover .card__image {
+  opacity: 0.7;
+}
+
+.card:hover .card__title {
+  color: rgb(76, 0, 255);
+}
+
+.card:hover .card__abstract {
+  opacity: 1;
 }
 
 .card__title {
   align-items: center;
-  color: rgb(69, 1, 228);
+  color: rgb(111, 50, 255);
   display: flex;
   font-size: 1.8rem;
   justify-content: center;
@@ -31,12 +45,22 @@
 .card__abstract {
   color: darkslategray;
   font-weight: 100;
+  opacity: 0.7;
   padding: 0 2rem;
+  transition: all 150ms ease-in-out;
 }
 
 .card__misc-info {
+  align-items: center;
   color: #aaa;
   display: flex;
   justify-content: space-between;
-  padding: 2rem;
+  letter-spacing: 0.055rem;
+  padding: 0 2rem;
+  transition: all 150ms ease-in-out;
+}
+
+.card:hover .card__misc-info {
+  font-weight: bold;
+  letter-spacing: inherit;
 }

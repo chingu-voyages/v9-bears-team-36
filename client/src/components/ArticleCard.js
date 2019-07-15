@@ -12,7 +12,6 @@ const ArticleCard = ({ article }) => {
       href={article.web_url}
       rel="noopener noreferrer"
       target="_blank"
-      title={article.headline.main}
     >
       <div
         className="card__image"

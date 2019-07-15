@@ -13,7 +13,8 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     textAlign: 'center',
     padding: '20px',
-    width: '50%'
+    width: '25%',
+    fontSize: '2em'
   }
 };
 
@@ -46,7 +47,7 @@ class ErrorModal extends React.Component {
           closeTimeoutMS={200}
           contentLabel="Error"
           isOpen={this.state.modalIsOpen}
-          onRequestClose={() => this.closeModal}
+          onRequestClose={this.closeModal}
           style={customStyles}
         >
           {this.props.apiCalls < 5 ? (
@@ -56,8 +57,8 @@ class ErrorModal extends React.Component {
             </>
           ) : (
             <>
-              <h1>Looks like we're broken right now</h1>
-              <h3>Please try again later!</h3>
+              <h1>Looks like we're broken right now :(</h1>
+              <h2>Please refresh the page or try again later!</h2>
             </>
           )}
         </Modal>

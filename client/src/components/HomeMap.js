@@ -4,7 +4,10 @@ import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
 
 import './HomeMap.scss';
 
-const mapStyles = [{ width: '100%' }, { height: '100%' }];
+const mapStyles = {
+  container: { width: '100%', height: '70vh' },
+  map: { width: '100%', height: '70vh' }
+};
 
 class HomeMap extends React.Component {
   state = {
@@ -138,7 +141,8 @@ class HomeMap extends React.Component {
       <Map
         google={google}
         zoom={2}
-        styles={mapStyles}
+        style={mapStyles.map}
+        containerStyle={mapStyles.container}
         initialCenter={{ lat: 41.2284, lng: 80.9098 }}
         onClick={this.onMapClick}
       >

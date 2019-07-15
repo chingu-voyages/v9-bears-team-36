@@ -155,6 +155,7 @@ class App extends React.Component {
               searchResult={selectedCountry}
               handleSetDisaster={this.handleSetDisaster}
               onMarkerClick={this.setSelectedCountry}
+              style={{ height: '70vh' }}
             />
           </div>
         )}

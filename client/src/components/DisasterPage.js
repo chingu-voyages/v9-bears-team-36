@@ -17,7 +17,7 @@ const DisasterPage = ({
 }) => (
   <div className="container">
     <button className="return-button" onClick={onClick}>
-      {'<'}
+      {'<   '} Return
     </button>
     <div className="content__container">
       <div className="disaster__container">

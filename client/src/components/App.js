@@ -89,7 +89,12 @@ class App extends React.Component {
     e.preventDefault();
 
     this.setState(
-      () => ({ search: '', selectedCountry: null, disastersSearchList: [] }),
+      () => ({
+        filterBySearch: false,
+        search: '',
+        selectedCountry: null,
+        disastersSearchList: []
+      }),
       () => this.getAllDisasters()
     );
   };
@@ -120,6 +125,7 @@ class App extends React.Component {
       disaster,
       disasters,
       disastersSearchList,
+      filterBySearch,
       search,
       selectedCountry
     } = this.state;
@@ -137,9 +143,11 @@ class App extends React.Component {
             <h1>Ongoing Disasters</h1>
             <SearchBar
               countries={countries}
+              disabled={filterBySearch}
               onChange={this.onSearchChange}
               onReset={this.onReset}
               onSubmit={this.onSearchSubmit}
+              selectedCountry={selectedCountry}
               value={search}
             />
             <HomeMap

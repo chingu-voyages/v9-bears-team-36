@@ -5,42 +5,54 @@ import './App.scss';
 import SearchBar from './SearchBar';
 import DisasterPageWrapper from './DisasterPageWrapper';
 import HomeMap from './HomeMap';
+import ErrorBoundary from './ErrorBoundary';
+import ErrorModal from './ErrorModal';
 
 require('dotenv').config();
 
 class App extends React.Component {
   state = {
+    apiCalls: 0,
     countries: [],
     disasters: [],
     disaster: null,
     disastersSearchList: [],
+    error: null,
     filterBySearch: false,
     search: '',
     selectedCountry: null
   };
 
-  async getAllDisasters() {
-    const res = await axios.get('/relief');
-    const disasters = res.data;
+  getAllDisasters = async event => {
+    try {
+      this.setState({ error: null });
+      const res = await axios.get('/relief');
+      const disasters = res.data;
 
-    const countries = [];
-    disasters.forEach(disaster =>
-      disaster.countries.forEach(country => {
-        if (!countries.map(country => country.name).includes(country.name)) {
-          countries.push({
-            id: country.id,
-            location: {
-              lat: country.location.lat,
-              lng: country.location.lng
-            },
-            name: country.name
-          });
-        }
-      })
-    );
+      const countries = [];
+      disasters.forEach(disaster =>
+        disaster.countries.forEach(country => {
+          if (!countries.map(country => country.name).includes(country.name)) {
+            countries.push({
+              id: country.id,
+              location: {
+                lat: country.location.lat,
+                lng: country.location.lng
+              },
+              name: country.name
+            });
+          }
+        })
+      );
 
-    this.setState(() => ({ countries, disasters }));
-  }
+      this.setState(() => ({ countries, disasters }));
+    } catch (error) {
+      this.setState(() => ({
+        error: error.message,
+        apiCalls: this.state.apiCalls + 1
+      }));
+    }
+  };
 
   onSearchChange = e => {
     const search = e.target.value;
@@ -121,10 +133,12 @@ class App extends React.Component {
 
   render() {
     const {
+      apiCalls,
       countries,
       disaster,
       disasters,
       disastersSearchList,
+      error,
       filterBySearch,
       search,
       selectedCountry
@@ -133,30 +147,41 @@ class App extends React.Component {
     return (
       <div className="App">
         {disaster ? (
-          <DisasterPageWrapper
-            disaster={disaster}
-            onClick={this.handleClearDisaster}
-            selectedCountry={selectedCountry}
-          />
+          <ErrorBoundary>
+            <DisasterPageWrapper
+              disaster={disaster}
+              onClick={this.handleClearDisaster}
+              selectedCountry={selectedCountry}
+            />
+          </ErrorBoundary>
         ) : (
           <div>
-            <h1>Ongoing Disasters</h1>
-            <SearchBar
-              countries={countries}
-              disabled={filterBySearch}
-              onChange={this.onSearchChange}
-              onReset={this.onReset}
-              onSubmit={this.onSearchSubmit}
-              selectedCountry={selectedCountry}
-              value={search}
-            />
-            <HomeMap
-              data={disasters}
-              searchList={disastersSearchList}
-              searchResult={selectedCountry}
-              handleSetDisaster={this.handleSetDisaster}
-              onMarkerClick={this.setSelectedCountry}
-            />
+            <ErrorBoundary>
+              <h1>Ongoing Disasters</h1>
+              <SearchBar
+                countries={countries}
+                disabled={filterBySearch}
+                onChange={this.onSearchChange}
+                onReset={this.onReset}
+                onSubmit={this.onSearchSubmit}
+                selectedCountry={selectedCountry}
+                value={search}
+              />
+              <HomeMap
+                data={disasters}
+                searchList={disastersSearchList}
+                searchResult={selectedCountry}
+                handleSetDisaster={this.handleSetDisaster}
+                onMarkerClick={this.setSelectedCountry}
+              />
+              {error && (
+                <ErrorModal
+                  apiCalls={apiCalls}
+                  error={error}
+                  getDisastersAgain={this.getAllDisasters}
+                />
+              )}
+            </ErrorBoundary>
           </div>
         )}
       </div>

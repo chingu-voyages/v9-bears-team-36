@@ -21,13 +21,15 @@ const SearchBar = ({
           className="search-bar__input"
           disabled={disabled}
           onChange={onChange}
-          placeholder="Find by Country"
+          placeholder={disabled ? '' : 'Find by Country'}
           value={value}
         />
         {selectedCountry && (
-          <p>
+          <p className="search-bar__country">
             {selectedCountry.name}
-            <button onClick={onReset}>×</button>
+            <button className="search-bar__reset" onClick={onReset}>
+              ×
+            </button>
           </p>
         )}
         {value && (

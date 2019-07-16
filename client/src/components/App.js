@@ -139,7 +139,6 @@ class App extends React.Component {
       disasters,
       disastersSearchList,
       error,
-      filterBySearch,
       search,
       selectedCountry
     } = this.state;

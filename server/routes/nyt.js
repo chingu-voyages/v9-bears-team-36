@@ -9,7 +9,7 @@ router.get('/', function(req, res) {
   const articleSearchURL =
     'https://api.nytimes.com/svc/search/v2/articlesearch.json';
 
-  const { country, date, name } = req.query;
+  const { country, name } = req.query;
 
   const string =
     country +
@@ -20,8 +20,6 @@ router.get('/', function(req, res) {
     .toISOString()
     .replace(/T.*$/, '')
     .replace(/-/g, '');
-
-  console.log(fiveYearsAgo);
 
   axios
     .get(articleSearchURL, {

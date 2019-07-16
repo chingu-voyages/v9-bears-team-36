@@ -26,11 +26,9 @@ class DisasterPageWrapper extends React.Component {
     const articles = await axios.get('/nyt', {
       params: {
         country: selectedCountry.name,
-        date: disaster.date,
         name: disaster.name
       }
     });
-    console.log(articles);
 
     if (articles.data.error) {
       this.setState(() => ({

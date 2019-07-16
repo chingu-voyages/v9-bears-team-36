@@ -9,18 +9,25 @@ router.get('/', function(req, res) {
   const articleSearchURL =
     'https://api.nytimes.com/svc/search/v2/articlesearch.json';
 
-  const { country, name } = req.query;
+  const { country, date, name } = req.query;
 
   const string =
     country +
     ' ' +
     name.replace(/^(.*: )?(.*)( - [A-Za-z]{3} [0-9]{4})$/, '$2');
   const q = string.split(' ').join('+');
+  const fiveYearsAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 5)
+    .toISOString()
+    .replace(/T.*$/, '')
+    .replace(/-/g, '');
+
+  console.log(fiveYearsAgo);
 
   axios
     .get(articleSearchURL, {
       params: {
         'api-key': keys.nytApiKey,
+        begin_date: fiveYearsAgo,
         q,
         sort: 'relevance'
       }

@@ -16,11 +16,16 @@ router.get('/', function(req, res) {
     ' ' +
     name.replace(/^(.*: )?(.*)( - [A-Za-z]{3} [0-9]{4})$/, '$2');
   const q = string.split(' ').join('+');
+  const fiveYearsAgo = new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 5)
+    .toISOString()
+    .replace(/T.*$/, '')
+    .replace(/-/g, '');
 
   axios
     .get(articleSearchURL, {
       params: {
         'api-key': keys.nytApiKey,
+        begin_date: fiveYearsAgo,
         q,
         sort: 'relevance'
       }

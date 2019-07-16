@@ -25,11 +25,10 @@ class DisasterPageWrapper extends React.Component {
 
     const articles = await axios.get('/nyt', {
       params: {
-        name: disaster.name,
-        country: selectedCountry.name
+        country: selectedCountry.name,
+        name: disaster.name
       }
     });
-    console.log(articles);
 
     if (articles.data.error) {
       this.setState(() => ({
